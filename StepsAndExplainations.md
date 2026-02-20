@@ -18,26 +18,16 @@ Building Process:
 
 
 Extra informations:
-- Modular Programming: -> We divide code into small modules. 
-    -- `module.exports = {func1, func2}` or 
-    -- `module.exports = func1; module.exports = func2;` -> will export latest one. Can use only one time      or
-    -- `module.exports = {NewFunc1:func1, NewFunc2:func2}`
-    -- `exports.func1 = () => {}; exports.func1 = () => {}`  => Here function Name is Anonymous as func1 is its property.
-    -- `const moduleName = require("./pathToFile)`  ==> moduleName.NewFunc1()    ==> reuire is fron NodeJs not in JS
-    -- `const {func1, func2} = require("./pathToFile)` --> Destructure way
-    -- `require("pkgName")` -> it will search in node package dir or npm installed pkg direc. 
-    -- `require("./pkgName")` -> it will search only in current dir. 
-    -- `require("ctrl + space") -> it will give suggestions.
-
-    -- function func(a, b) ==> a, b are Parameters
-    -- func(2, 3) ==> 2, 3are Arguments
-
-- Sync and Async =>
-    -- Sync => sync task give us an result as it wait for that call to complete.
-    -- Async => Does not return anything as it takes an CallBack function. (err, result)=>{if err{}else{}}
-
-- "fs" module => we can interact with files using this module.
+- NodeJs Workflow:=>
+    -- Client send request to server
+    -- it goes to "Event Queue"
+    -- "Event Loop" Takes request from "Event Queue" in FIFO order
+    -- Request can be of 2 types =>
+        -- 1. non-blocking (Async) => process it and provide response
+        -- 2. Blocking Operation (Synchronous) => we give this to "Thread pool" or "worker pool" to handle, it will resolve and send response. Threads are CORE CPUs. 
+                -- bydefault Threads = 4, max => limited by machines.
+                -- require("os").cpus().length -> max thread size
 
 
 Execution Command:
-  -- can run this script with CMD (not powershell):=>  `node calculator.js`
+  -- can run this script with CMD (not powershell):=>  `node nodewf`
