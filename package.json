@@ -1,0 +1,21 @@
+{
+  "name": "url-shortner-nodejs",
+  "version": "1.0.0",
+  "description": "URl Shortner",
+  "homepage": "https://github.com/ee17btech11034/url_shortner_NodeJs#readme",
+  "bugs": {
+    "url": "https://github.com/ee17btech11034/url_shortner_NodeJs/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ee17btech11034/url_shortner_NodeJs.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  }
+}

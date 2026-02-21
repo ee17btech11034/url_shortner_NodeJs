@@ -14,19 +14,18 @@ Installations:
 
 
 Building Process:
-- 
+- cmd > `npm init` (to initialize the project) -> generate "package.json"
+- require("http) and then create a server using this.
+- If we make any changes then we need to restart server
 
 
 Extra informations:
-- NodeJs Workflow:=>
-    -- Client send request to server
-    -- it goes to "Event Queue"
-    -- "Event Loop" Takes request from "Event Queue" in FIFO order
-    -- Request can be of 2 types =>
-        -- 1. non-blocking (Async) => process it and provide response
-        -- 2. Blocking Operation (Synchronous) => we give this to "Thread pool" or "worker pool" to handle, it will resolve and send response. Threads are CORE CPUs. 
-                -- bydefault Threads = 4, max => limited by machines.
-                -- require("os").cpus().length -> max thread size
+- Always creae an `index.js` as an entry point, it is good practice as we can see `"main": "index.js",` in package.json
+- `http` package is built in in Node.
+- Add `"start": "node index.js"` in package.json file now we can run it with `npm start`
+  -- "CanBeAnyName": "node index.js" or "node index" automatically understand that we need to run JS file
+- Headers:
+  -- Headers contain extra information. It is present in both req and res.
 
 
 Execution Command:
