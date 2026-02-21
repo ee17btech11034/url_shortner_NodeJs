@@ -1,18 +1,48 @@
 const http = require('http')
-
-// const myServer = http.createServer() // it will create a web server for us.
-/*
-But we need a "handler function" to handle that what we want to do for which request.
-it has 2 args 1. req 2. res => request and response
-server call this handler whenever a rquest comes to server.
-*/
+const portnumber = 8000;
+const fs = require("fs")
+const url = require("url")
 
 const myServer = http.createServer((req, res)=>{
-    console.log(req.headers)
-    res.end("Hello from Server")
+    if (req.url === "/favicon.ico"){ //This is adding extra log in txt log file
+        return res.end();
+    }
+    // console.log(req)
+    // console.log(req.url)
+    // res.end("hello") // if we do not write this then server won't send anything and user browser's window will show just restart. As he is waiting for re.
+
+    const logline = `User requested for Path "${req.url}" with HTTP Method "${req.method}" at timestamp: ${Date.now()}\n`
+    // console.log(logline)
+
+    // res.end(logline)
+
+    const myUrl = url.parse(req.url)
+    // const myUrl = url.parse(req.url, true) //ye queries ko object format me bana deta hai na ki string format me 
+    console.log("Parsed url: ", myUrl)
+
+    fs.appendFile("./user_req_logs.txt", logline, (err, result)=>{
+        if (err){
+            console.log("Some error occured while appending data into log file.");
+        }
+        else{
+            console.log("Successfully append data.");
+        }
+        switch (req.url) { //myurl.pathName par bhi apply kr sakte hai
+            case "/":
+                res.end("Home Page")
+                break;
+            case "/about":
+                res.end("About Page")
+                break;
+            case "/contact-us":
+                res.end("Contact Us")
+                break;
+            default:
+                res.end("Error 404 -> page Not found!")
+                break;
+        }
+    })
+
 })
 
-// We need a port Number to listen to that request. Port is a gate (like CPU cores in a machine) like 8000, 8001, 2, 3, ...etc
-
-myServer.listen(8000, ()=>(console.log("Server Started: http://localhost:8000/"))) // callback runs when all are done.
-// got to "http://localhost:8000/"
+myServer.listen(portnumber, ()=>(console.log(`Server Started: http://localhost:${portnumber}/`)));
