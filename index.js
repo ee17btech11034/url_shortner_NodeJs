@@ -2,47 +2,37 @@ const http = require('http')
 const portnumber = 8000;
 const fs = require("fs")
 const url = require("url")
+const express = require("express")
 
-const myServer = http.createServer((req, res)=>{
-    if (req.url === "/favicon.ico"){ //This is adding extra log in txt log file
-        return res.end();
+const app = express() // creates an express application
+
+ //-> // We should not write any code outside, it is screting problem for server start. We can use middleware to write code.
+/*if (req.url === "/favicon.ico"){ //This is adding extra log in txt log file
+    return res.end();
+}
+const logline = `User requested for Path "${req.url}" with HTTP Method "${req.method}" at timestamp: ${Date.now()}\n`
+
+fs.appendFile("./user_req_logs.txt", logline, (err, result)=>{
+    if (err){
+        console.log("Some error occured while appending data into log file.");
     }
-    // console.log(req)
-    // console.log(req.url)
-    // res.end("hello") // if we do not write this then server won't send anything and user browser's window will show just restart. As he is waiting for re.
-
-    const logline = `User requested for Path "${req.url}" with HTTP Method "${req.method}" at timestamp: ${Date.now()}\n`
-    // console.log(logline)
-
-    // res.end(logline)
-
-    const myUrl = url.parse(req.url)
-    // const myUrl = url.parse(req.url, true) //ye queries ko object format me bana deta hai na ki string format me 
-    console.log("Parsed url: ", myUrl)
-
-    fs.appendFile("./user_req_logs.txt", logline, (err, result)=>{
-        if (err){
-            console.log("Some error occured while appending data into log file.");
-        }
-        else{
-            console.log("Successfully append data.");
-        }
-        switch (req.url) { //myurl.pathName par bhi apply kr sakte hai
-            case "/":
-                res.end("Home Page")
-                break;
-            case "/about":
-                res.end("About Page")
-                break;
-            case "/contact-us":
-                res.end("Contact Us")
-                break;
-            default:
-                res.end("Error 404 -> page Not found!")
-                break;
-        }
-    })
-
+    else{
+        console.log("Successfully append data.");
+    }
+*/
+app.get("/", (req, res)=>{ //runs when GET request comes on path "/"
+    return res.send("Home Page");
 })
 
-myServer.listen(portnumber, ()=>(console.log(`Server Started: http://localhost:${portnumber}/`)));
+app.get("/about", (req, res)=>{ // /about/axx will go this page itself
+    return res.send("About Page");
+})
+app.get("/contact-us", (req, res)=>{
+    return res.send("Contact Us Page");
+})
+
+// We can replace this as well
+// const myServer = http.createServer(app)
+// myServer.listen(portnumber, ()=>{console.log(`Server Started: http://localhost:${portnumber}/`)});
+
+app.listen(portnumber, ()=>{console.log(`Server started: http://localhost:${portnumber}/`)})

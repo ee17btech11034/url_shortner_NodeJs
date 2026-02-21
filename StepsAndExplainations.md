@@ -12,48 +12,60 @@ Installations:
 
 Building Process:
 - cmd > `npm init` (to initialize the project) -> generate "package.json" and added a "start" script.
-- require("http) and then create a server using this.
-- We will build different Routes/paths using Switch
-- Check requests like "http://localhost:8000/about", "http://localhost:8000/", "http://localhost:8000/contactUs", etc
-- We do not ship node modules folder. We just ship package.json file. `npm install` that installs all deps from this json file.
-- require module first looks pakage into "deps in json" > "npm modules".
+
 
 
 Extra informations:
-- URL (uniform Resource Locator):
-  -- Ex => https://www.abc.com/Paths
-      --> https is Protocol (HyperText transfer protocol Secure)
-        --> protocol is a set of rules which tells browser that how they will communicate
-        --> We use SSL certificate for encryted/ secure.
-       --> http is also protocol but less secure and SSL is not used.
-       --> ws (webSockets) is also protocol but for real time communication 
-      
-      --> www.abc.com It is domain, user friendly name for server IP.
-        --> cmd > `ping google.com` => we can get ip address
-      
-      --> Paths are for routes of different pages. 
-        --> / for homepage, /about for About page
-        --> /projects/tic-tac-toe is nested path. 
+- ExpressJs:
+  -- `http.createServer(handlerfunc)` -> handler function handles all routes.
+  -- If application is big and there are many routes present then it is hard to manage Methods and routes.
+  -- ExpressJs handles these for us. `npm i express`
+  -- Express also uses http internally
+  -- app.METHOD(PATH, handler)
+  -- Now we do not need url as Express is handling those routes. `npm uninstall url`
 
-      --> Query Parameters 
-        --> It is extra information which we can pass with out URl. Starts after "?"
-          --> we can send extra information from frontend.
-          --> https://abc.com/about?userId=3&userName=Raj ==> here userId=3&userName=Raj is query
+- Version:
+  -- Major.Minor.Update
+      -- Update -> when small bug fixes (optional version)
+      -- Minor -> small changes like adding a new function (Recommended version) (Security fix)
+      -- Major -> Major change like removed some functionality (Be cautious)
+  -- types:
+      -- "a.b.c" -> all hardcoded
+      -- "^a.b.c" -> Can increase ba dn c but Do not increase a
+      -- "~a.b.c" -> can increase only c not a, b. 
+      -- "2.x.x" -> will increase x to latest.
+      -- We can use <=, >=, range format etc.  
 
--"URL information":
-  -- As we see "req.url give the full path after domain. 
-  -- We need package which can give these in different parts. 
-  -- Go to npm js (can download any node package from here) "https://www.npmjs.com/" and search for url
-  -- install using `npm i url` or `npm install url`
+- REST API: (Representational State Transfer API)
+  -- It is an architectural style for building web services that use HTTP methods to perform operations on resources.  It is not a protocol, but a set of constraints that enable scalable, stateless, and uniform communication between systems.
+  -- We build APIs based on these REST defined rules/constraints. We run Node on these.
+
+-> Other:
+ - gRPC, GraphQL, and SOAP, FAST API, etc.
 
 
-- HTTP Methods:
-  -- GET :-> When we want to get some data from server. (most of requests are GET only) Can check `{req.method}`
-          -> Browser By default GET req hi krta hai. inspect > network > refresh page > check the first instance and look the type switch `req.method === "POST"`
-  -- POST :-> When we want to send some Data to Server. (people use post for put and patch as well but it is not recommended) => https://www.w3schools.com/tags/ref_httpmethods.asp
-  -- PUT :-> When we want to  upload a new entry for existing user. Like upload a picture or something
-  -- PATCH :-> When we want to modify some instance of data of a user. 
-  -- DELETE :-> When we want to delete the data from server
+- REST vs GraphQL
+  -- Endpoints: REST has multiple endpoints ; GraphQL uses a single endpoint. 
+    -- Rest: e.g., /users, /users/1/posts, /users/1/followers
+    --  e.g., /graphql
+  -- Data Fetching: REST may over/under-fetch; GraphQL returns only requested fields.
+    -- GET /users/1 returns {id, name, email, address, dob} — even if only name is needed
+    -- { user(id: "1") { name } }
+  -- Schema: GraphQL has a strong, typed schema; REST schema is optional. 
+  -- Real-time: GraphQL supports subscriptions; REST requires WebSockets.
+
+- Response type:
+  -- HTML as response: {also called SSR => Server Side Rendering}
+    -- We can do all the stuff and render things on server
+    -- Then send that HTML to frontend. But it is good only for Web applications, not for devices like Alexa, mobile app, etc.
+
+  -- JSON as response: (CSR => Client Side Rendering)
+    -- We send Raw data as JSON (Key-value pairs) format. 
+    -- Process in frontend and then show it. It is slow. 
+
+- REST Rules:
+  -- 1. Follow Server Client request properly (Server Client Architecture)
+  -- 2. Correctly use HTTP Methods
 
 
 Execution Command:
