@@ -8,6 +8,7 @@ Git Commands:
 Installations:
 - Install nodeJs (stable version) [May face this => https://v2know.com/article/1158]
 - Install Git, VS Code[prettier, jellyfish]
+- Install Requestly for API testing (Earlier we used to do it on POSTMAN)
 
 
 Building Process:
@@ -16,57 +17,41 @@ Building Process:
 
 
 Extra informations:
-- ExpressJs:
-  -- `http.createServer(handlerfunc)` -> handler function handles all routes.
-  -- If application is big and there are many routes present then it is hard to manage Methods and routes.
-  -- ExpressJs handles these for us. `npm i express`
-  -- Express also uses http internally
-  -- app.METHOD(PATH, handler)
-  -- Now we do not need url as Express is handling those routes. `npm uninstall url`
-
-- Version:
-  -- Major.Minor.Update
-      -- Update -> when small bug fixes (optional version)
-      -- Minor -> small changes like adding a new function (Recommended version) (Security fix)
-      -- Major -> Major change like removed some functionality (Be cautious)
-  -- types:
-      -- "a.b.c" -> all hardcoded
-      -- "^a.b.c" -> Can increase ba dn c but Do not increase a
-      -- "~a.b.c" -> can increase only c not a, b. 
-      -- "2.x.x" -> will increase x to latest.
-      -- We can use <=, >=, range format etc.  
-
-- REST API: (Representational State Transfer API)
-  -- It is an architectural style for building web services that use HTTP methods to perform operations on resources.  It is not a protocol, but a set of constraints that enable scalable, stateless, and uniform communication between systems.
-  -- We build APIs based on these REST defined rules/constraints. We run Node on these.
-
--> Other:
- - gRPC, GraphQL, and SOAP, FAST API, etc.
-
-
-- REST vs GraphQL
-  -- Endpoints: REST has multiple endpoints ; GraphQL uses a single endpoint. 
-    -- Rest: e.g., /users, /users/1/posts, /users/1/followers
-    --  e.g., /graphql
-  -- Data Fetching: REST may over/under-fetch; GraphQL returns only requested fields.
-    -- GET /users/1 returns {id, name, email, address, dob} — even if only name is needed
-    -- { user(id: "1") { name } }
-  -- Schema: GraphQL has a strong, typed schema; REST schema is optional. 
-  -- Real-time: GraphQL supports subscriptions; REST requires WebSockets.
-
-- Response type:
-  -- HTML as response: {also called SSR => Server Side Rendering}
-    -- We can do all the stuff and render things on server
-    -- Then send that HTML to frontend. But it is good only for Web applications, not for devices like Alexa, mobile app, etc.
-
-  -- JSON as response: (CSR => Client Side Rendering)
-    -- We send Raw data as JSON (Key-value pairs) format. 
-    -- Process in frontend and then show it. It is slow. 
 
 - REST Rules:
   -- 1. Follow Server Client request properly (Server Client Architecture)
   -- 2. Correctly use HTTP Methods
 
+- Define REST API:
+  -- Create a proper documentation of all PAIs needed. 
+    -- GET    /users       =>  list of all users
+    -- GET    /users/1     =>  get the details of user with ID 1
+    -- GET    /users/2     =>  get the details of user with ID 2 
+    -- GET    /users/x     =>  get the details of user with ID x     [We call it Dynamic Routing] -> use "users/:x"
+    -- POST   /users       =>  Create a new user. (It may return the user ID)
+    -- PATCH  /users/1     =>  Update the details of user 1
+    -- DELETE  /users/1    =>  DELETE user 1
+
+    
+  When our server handles both SSR (Server side render -> return HTML) and CSR (Client Side render -> return JSON)
+    -- GET     /api/users  =>  We want to return JSON Data
+    -- GET     /users      =>  We want to return HTML. 
+
+  When we return HTML 
+   -- When using braces, we must explicitly state the return value. Without braces, the expression following the arrow gets automatically returned.
+
+  We can do this as well for all the other methods. like /api/users/x, 
+  POST, PATCH, DELETE, PUT can only be "/api/users" untill we want to return some data in return to that req.
+
+- Will use "https://mockaroo.com/" to get the Dummy DATA for now as we do not have DB rightnow. 
+
+
+- We can only do "GET" request as we do not have option to select the METHOD. In broser we use Forms to use POST.
+- We use POSTMAN or Requestly to test other METHODS.
+
+- Request from Requestly:
+  -- Go to Body > select "x-www-form-urlencoded" (This is to send the data in form format.) [can select JSOn or other format as well]
+  -- Fill the form data like key val pairs
 
 Execution Command:
   -- can run this script with CMD (not powershell):=>  `npm start`
