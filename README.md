@@ -20,7 +20,7 @@ Level 5: Optimization – Adding URL validation, custom aliases, and rate limiti
 🛠️ Tech Stack
 Runtime: Node.js
 
-Framework: Express.js, POSTMAN, Requestly
+Framework: Express.js, POSTMAN, Requestly, Nodemon
 
 Database: MongoDB (via Mongoose)
 

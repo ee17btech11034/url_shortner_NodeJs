@@ -7,8 +7,7 @@ Git Commands:
 
 Installations:
 - Install nodeJs (stable version) [May face this => https://v2know.com/article/1158]
-- Install Git, VS Code[prettier, jellyfish]
-- Install Requestly for API testing (Earlier we used to do it on POSTMAN)
+- Install Git, VS Code[prettier, jellyfish], Requestly/Postman
 
 
 Building Process:
@@ -17,41 +16,36 @@ Building Process:
 
 
 Extra informations:
+- As we can see app.METHOD(path, ...) :
+  -- Many request has same path so we can combine them together. like `app.get("/users/:id"` `app.patch("/users/:id"`, `app.delete("/users/:id"`, etc.
 
-- REST Rules:
-  -- 1. Follow Server Client request properly (Server Client Architecture)
-  -- 2. Correctly use HTTP Methods
+- Express Middleware: https://expressjs.com/en/guide/using-middleware.html
+  -- req goes to middleware then it goes to express and express decide which METHOD will be called.
+  -- We can have multiple middlewares. 
+  -- Req flow ==>        Client -> Middleware 1 -> middleware 2 -> ... -> Express app.
+  -- We use middlewares to authenticate users and log the requestes or some other tasks. 
+  -- Middleware can process on req and res means it can return the request or can add some data to it and send to next middlewares. 
+  -- can create custom middleware `app.use(handlerfunction)`
 
-- Define REST API:
-  -- Create a proper documentation of all PAIs needed. 
-    -- GET    /users       =>  list of all users
-    -- GET    /users/1     =>  get the details of user with ID 1
-    -- GET    /users/2     =>  get the details of user with ID 2 
-    -- GET    /users/x     =>  get the details of user with ID x     [We call it Dynamic Routing] -> use "users/:x"
-    -- POST   /users       =>  Create a new user. (It may return the user ID)
-    -- PATCH  /users/1     =>  Update the details of user 1
-    -- DELETE  /users/1    =>  DELETE user 1
+- HTTP Headers:
+  -- Every req and res has a package which has actual data. But on that packet we have some extra info that is called Headers. like address on envelope.
+  -- Headers are an important part of the API req and res as they represent the meta-data associated with the API req and res.
+  -- Headers carry information for the req and res body. Ex. Go to chrome > network > refresh yt on that page. Check Headers.
+  -- If want to add custom Header it should start with "x-headerName". x- tells that it is custom. can read with `req.headers`.         res.setHeader("x-myName", "Raj") -> we can set in res.
 
-    
-  When our server handles both SSR (Server side render -> return HTML) and CSR (Client Side render -> return JSON)
-    -- GET     /api/users  =>  We want to return JSON Data
-    -- GET     /users      =>  We want to return HTML. 
+- HTTP Status Code: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status
+  -- Status codes informs wheather a http req is successfully completed. => `res.status(200).json or send()`
+    -- 1. Information response (100 -> 199)
+    -- 2. Successful response (200 -> 299)
+    -- 3. Redirection message (300 -> 399) -> When we redirect user
+    -- 4. Client Error response (400 -> 499) -> Error on client side, like wrong password, trying to access a page which does not exist
+    -- 5. Server Error response (500 -> 599) -> Error on Server side
 
-  When we return HTML 
-   -- When using braces, we must explicitly state the return value. Without braces, the expression following the arrow gets automatically returned.
-
-  We can do this as well for all the other methods. like /api/users/x, 
-  POST, PATCH, DELETE, PUT can only be "/api/users" untill we want to return some data in return to that req.
-
-- Will use "https://mockaroo.com/" to get the Dummy DATA for now as we do not have DB rightnow. 
-
-
-- We can only do "GET" request as we do not have option to select the METHOD. In broser we use Forms to use POST.
-- We use POSTMAN or Requestly to test other METHODS.
-
-- Request from Requestly:
-  -- Go to Body > select "x-www-form-urlencoded" (This is to send the data in form format.) [can select JSOn or other format as well]
-  -- Fill the form data like key val pairs
+- Everytime we make changes we have to restart server. 
+  -- Let's install "nodemon" which will restart my server whenever new changes are there.
+  -- `npm i nodemon`
+  -- change the "start' script to "nodemon index.js"
+  -- `npm start` to start server first time. 
 
 Execution Command:
   -- can run this script with CMD (not powershell):=>  `npm start`
