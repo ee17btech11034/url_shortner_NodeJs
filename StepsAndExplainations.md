@@ -7,7 +7,7 @@ Git Commands:
 
 Installations:
 - Install nodeJs (stable version) [May face this => https://v2know.com/article/1158]
-- Install Git, VS Code[prettier, jellyfish], Requestly/Postman
+- Install Git, VS Code[prettier, jellyfish], Requestly/Postman, nodemon
 
 
 Building Process:
@@ -16,36 +16,50 @@ Building Process:
 
 
 Extra informations:
-- As we can see app.METHOD(path, ...) :
-  -- Many request has same path so we can combine them together. like `app.get("/users/:id"` `app.patch("/users/:id"`, `app.delete("/users/:id"`, etc.
+- MongoDB:
+  -- No-SQL Document Based Database
+  -- Strong support for Aggregation Pipes
+  -- Works on BSON format
+  -- Best for Node Applications
 
-- Express Middleware: https://expressjs.com/en/guide/using-middleware.html
-  -- req goes to middleware then it goes to express and express decide which METHOD will be called.
-  -- We can have multiple middlewares. 
-  -- Req flow ==>        Client -> Middleware 1 -> middleware 2 -> ... -> Express app.
-  -- We use middlewares to authenticate users and log the requestes or some other tasks. 
-  -- Middleware can process on req and res means it can return the request or can add some data to it and send to next middlewares. 
-  -- can create custom middleware `app.use(handlerfunction)`
+  -> SQL has Tables, MongoDB has Collections
+  -> inside collections we have documents.
 
-- HTTP Headers:
-  -- Every req and res has a package which has actual data. But on that packet we have some extra info that is called Headers. like address on envelope.
-  -- Headers are an important part of the API req and res as they represent the meta-data associated with the API req and res.
-  -- Headers carry information for the req and res body. Ex. Go to chrome > network > refresh yt on that page. Check Headers.
-  -- If want to add custom Header it should start with "x-headerName". x- tells that it is custom. can read with `req.headers`.         res.setHeader("x-myName", "Raj") -> we can set in res.
+  -> Install MongoDB:
+    -- Install it. install `mongosh` for shall to interact with MongoDb and run the commands.
+    -- cmd > `mongosh`  (it shows we are in Db names "test")
+          -- Result `mongodb://127.0.0.1:27017/?` ==> mongodb is running on ip `127.0.0.1` with port `27017`
+          -- need these details to connect this to NodeJs
 
-- HTTP Status Code: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status
-  -- Status codes informs wheather a http req is successfully completed. => `res.status(200).json or send()`
-    -- 1. Information response (100 -> 199)
-    -- 2. Successful response (200 -> 299)
-    -- 3. Redirection message (300 -> 399) -> When we redirect user
-    -- 4. Client Error response (400 -> 499) -> Error on client side, like wrong password, trying to access a page which does not exist
-    -- 5. Server Error response (500 -> 599) -> Error on Server side
+      -- Commands:
+        -- `show dbs` -> show/list all DBs present
+        -- `use <db_name>` -> will be using this db_name db now
+        -- `show collections` -> show collections in a specific db
+        -- `db.collection_name.find()` -> find all the matches
+          -- `db.collection_name.find({})` -> shows all objects
+        -- `db.collection_name.insert()` -> insert an object in this collection
+          -- `db.collection_name.insert({key: val})` -> insert an object in this collection
 
-- Everytime we make changes we have to restart server. 
-  -- Let's install "nodemon" which will restart my server whenever new changes are there.
-  -- `npm i nodemon`
-  -- change the "start' script to "nodemon index.js"
-  -- `npm start` to start server first time. 
+- CRUD Operations:
+  -- Create, Read, Update, Delete
 
+
+- mongoose:
+  -- we need an package to connect our NodeJs to MongoDB. `npm i mongoose`
+  -- We create "Schema" (define the structure)
+    -- We create a "Model" using "Schema"
+    -- Using "Model" we do CRUD tasks.
+  -- connect with mongoose
+    -- mongoose.connect("mongodb://127.0.0.1:27017/shop-orders").then(()=>console.log("Mongoose is connected..."))
+      -- "shop-orders" is the DBs name
+    -- Like a shop data may have Users, Orders, Employees, etc. 
+      -- Shop --> it is DB
+      -- Users, Orders, Employees --> these are collections
+      -- user, order, employee --> single object of collection.
+  
+  -- userModel is a way to interact with collection "users" which got created from "user" by adding "s:" in end.
+    -- Each entry follows a Schema. 
+    -- collection of entries is Collection "users". Node intereact with this using "Model".
+  
 Execution Command:
   -- can run this script with CMD (not powershell):=>  `npm start`
