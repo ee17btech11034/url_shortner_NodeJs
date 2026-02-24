@@ -1,25 +1,20 @@
 const express = require("express")
-const { connectMongoDB } = require("./connections")
-const userRouter = require("./routes/user")
-const portnumber = 8000;
-const mongoDbUrl = "mongodb://127.0.0.1:27017/shop-orders"
-const {logReqRes} = require("./middlewares/usersReqRes_log")
-const {addNewProperty} = require("./middlewares/addProperties")
+const { connectMongoDb } = require("./connections")
+const { router } = require("./routes/url")
 
-const app = express() 
+const portNumber = 8000
 
-// connectMongoDB(mongoDbUrl) //As we discussed in connections file
-connectMongoDB(mongoDbUrl)
-    .then(()=>console.log("Mongoose is connected..."))
-    .catch((err)=>console.log("Error occured while connecting MongoDB"))
+//connect to MongoDB -> go to cmd > `mongosh` to get the url
+const dbName = "short-urls"
+const mongoUrl = `mongodb://localhost:27017/${dbName}`
 
+connectMongoDb(mongoUrl)
+    .then(()=>console.log("MongoDB is connected"))
+    .catch((err)=>console.log("Error while connecting to MonoDB"))
 
-app.use(express.urlencoded({extended : false})) 
-//custom middleware
-app.use(logReqRes("./abc.txt")) //middleware 1
-app.use(addNewProperty()) //Middleware 2
+const app = express()
 
+app.use(express.json()) //middleware to take input of JSON 
 
-app.use("/users", userRouter) // Go to this router if any request comes on "/users" path if startiing is "/users" then only
-
-app.listen(portnumber, ()=>{console.log(`Server started: http://localhost:${portnumber}/`)})
+app.use("/url", router)
+app.listen(portNumber, ()=>{console.log(`Server started: http://localhost:${portNumber}/`)})

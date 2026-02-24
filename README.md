@@ -1,4 +1,4 @@
-🔗 URL Shortener: Evolution Edition (Node.js)
+🔗 NodeJs Journey: 
 A step-by-step evolutionary project that transforms from a Basic Express API into a Full-Stack SSR Application with Authentication. This repo is designed as a learning resource where every commit represents a new architectural layer or feature.
 
 🎯 The Philosophy
