@@ -16,29 +16,31 @@ Building Process:
 
 
 Extra informations:
-- Polling Connection: 
-    -- In Simple communication, client send HTTP req to server, server responds and close that connection.
-    -- Suppose we are creating real time chat application, If A sends message to B. Then It goes from A to server. 
-    -- untill B req server, server has no way to send client B that msg. 
-    -- For this. All users will have to req server that "Is there any new msg for them". 
-    -- This is called "Polling". Which increases load on server.
+- Clusters:=>
+    -- We deploy our NodeJs on a machine. When user connects with machine, all users connect with same machine which increases load on that core. 
+    -- We create a replica of nodeJs and run it on a worker (in this case it can be a signle core/thread process - CPU type). 
+    -- Now req will go to main NodeJs process and it will assign a worker to us. Different worker for different clients. 
+    -- Max workers we can increase is max CPUs available.
+    -- Ot follows "Round Robin" approach.
 
-- WebSockets: "Bi-Directional" communication setup Protocol
-    -- client send HTTP req to server and tells that convert this req to websockets. Server responds and stablish a connection with client. This is "Bi-Directional" communication. https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Upgrade
-    -- Now they can share multiple chat without closing connection. 
-    -- When user leave chatroom, client send HTTP req to server to close that websocket connection.
-    -- `npm i socket.io`
+- NGINX (Engine - x):=>
+    -- It is a powerful web server and uses a non-threaded, event-driven architecture.
+    -- It can handle other things like "load balancing" and "HTTP caching" or can be used as a "reverse proxy"
+    -- NGINX is most popular Reverse Proxy server.
 
-- Node Streams:
-    -- We can use `node-status-monitor` to monitor stats of CPU, our app is using.
-    -- If we read a file and store that data into a variable and then upload it to client. We are using RAM memory. Suppose 1000s of clients are trying to read that data parallely. It is not good. 
-    -- We use stream to send data into chunks
+    --> It can handle 10K concurrent req
+    --> cache HTTP req
+    --> Act as Reverse Proxy, Load Balancer, API Gateway.
+    --> Server and Cache Static files like images, videos, etc.
+    --> Handle SSL certificates
 
-    -- const stream = fs.createreadStream("./sample.txt", "utf-8") -> we are creating datta into chunks
-    -- stream.on("data", (check)=> res.write(chunk)) -> if datat is still remaining then load
-    -- stream.on("end", ()=> res.end()) -> if no data remaining then end the response.
-        --> issue is "this takes data into memory (x mb) and create a zip of it ( x mb). Total memory is (x+y mb) which is not good.
-        --> zlib is a Node package which creates a zip without using extra space.
+- Proxy Server:=> (Forward Proxy) 
+    - Multiple clients connect with a VPN and that VPN creates a connection with Server.
+    - Server does not know where this req came from
+
+- Reverse Proxy :=>
+    - We have multiple servers running. Client creates a connection with VPN and VPN sends that request to any server available. 
+    - Client does not know which server resolved that req.
   
 Execution Command:
   -- can run this script with CMD (not powershell):=>  `npm run start-dev` for testing in local machine. We need to use `run`.
