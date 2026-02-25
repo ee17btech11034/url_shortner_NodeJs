@@ -16,28 +16,29 @@ Building Process:
 
 
 Extra informations:
-- Deploy project on Cloud Services
-    --> We can use free cloud service like Railway, AWS (somewhat)
-    --> We can not hardcode portnumber. We use "process.env.PORT"
-    --> We can not hardcode mongo url as it can be on same machine or different. We use "process.env.MONGO_URL" --> it is custom variable.
-    --> Cloud providers automatically `npm start` run krte hai to it should exist
-    --> We should create .env file parallel to index.js, which will have all env variables. `npm i dotenv` to load and use these
-    --> In AWS, we can rename index.js to app.js if we want.
+- Polling Connection: 
+    -- In Simple communication, client send HTTP req to server, server responds and close that connection.
+    -- Suppose we are creating real time chat application, If A sends message to B. Then It goes from A to server. 
+    -- untill B req server, server has no way to send client B that msg. 
+    -- For this. All users will have to req server that "Is there any new msg for them". 
+    -- This is called "Polling". Which increases load on server.
 
+- WebSockets: "Bi-Directional" communication setup Protocol
+    -- client send HTTP req to server and tells that convert this req to websockets. Server responds and stablish a connection with client. This is "Bi-Directional" communication. https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Upgrade
+    -- Now they can share multiple chat without closing connection. 
+    -- When user leave chatroom, client send HTTP req to server to close that websocket connection.
+    -- `npm i socket.io`
 
-- AWS Deployment: 
-    --> go to "cponsole.aws.com" and create a free account
-    --> Select "mumbai" and search "elastic beanstalk" > "Create a server"
-    --> Fille name and select nodeJs version. 
-        --> delete node_modules
-        --> select remaining files and do compress (zip)
-        --> upload this zip
-    --> Go to configuration > software configuration > edit
-        --> MONGO_URL => URL got from Mongo (you should use password in it) => App name
-- MongoDB: 
-    --> Go to mongoDb and create account
-    --> Ask the ip (ip of machine which will access this DB)
-    --> Clieck on "connect" and copy the Url whioch comes right after it.
+- Node Streams:
+    -- We can use `node-status-monitor` to monitor stats of CPU, our app is using.
+    -- If we read a file and store that data into a variable and then upload it to client. We are using RAM memory. Suppose 1000s of clients are trying to read that data parallely. It is not good. 
+    -- We use stream to send data into chunks
+
+    -- const stream = fs.createreadStream("./sample.txt", "utf-8") -> we are creating datta into chunks
+    -- stream.on("data", (check)=> res.write(chunk)) -> if datat is still remaining then load
+    -- stream.on("end", ()=> res.end()) -> if no data remaining then end the response.
+        --> issue is "this takes data into memory (x mb) and create a zip of it ( x mb). Total memory is (x+y mb) which is not good.
+        --> zlib is a Node package which creates a zip without using extra space.
   
 Execution Command:
   -- can run this script with CMD (not powershell):=>  `npm run start-dev` for testing in local machine. We need to use `run`.
