@@ -16,27 +16,28 @@ Building Process:
 
 
 Extra informations:
-- Blogging Application
-  -- `npm i nondemon -D` => This dep is added in dev dependencies not the regular. dev-deps are not shipped in production as we do not need to restart server everytime.
-  -- Partials:->
-      -- We some some common part of HTML which is same on multiple pages like navbar, footer, etc.
-      -- we store them in "views/partials". We can create new components with common code as well.
-      -- Include "link" from CDN into head and script into script.
-  
-  -- Will use Salt-paper Hash for passwords
-  -- userSchema.pre("save", ) => we tells that run this right before we save user in DB.
-      -- this keyword shows issue when using with arrow function "undefined (inherits `this` from outer scope, e.g., `window`)", looks for parent's this. but in normal it referes to obj.
-  -- encrypt password with "crypto" https://nodejs.org/api/crypto.html#crypto
-      -- It is builtIn package, no need to install.
-  
-  -- "/login", "/signup" -> we should use POST instead of GET. As we will send uname and pass in body. 
-  -- "/logout" -> Should be post or delete. Delete of we are using any session id. we can clear this. Why not GET here. Some browser use Pre-fetch meansif they see any action or script with GET then they try to fetch data early to reduce latency.
-    -- Forms me hame name="" use krna padega to store these vales which are filled in those spaces.
-    -- To match the password with stored one. Better to use "Virtual function" of mongoose.
-            -- like 
-                userSchema.static('functionname', function (email, pass){user = this.findone(email)})
-  -- res.clearcookie(), when user logout then .redirect("/")
-  -- ref: user (refer createdBy ref to user [name given while creating user model] in blog schema )
+- Deploy project on Cloud Services
+    --> We can use free cloud service like Railway, AWS (somewhat)
+    --> We can not hardcode portnumber. We use "process.env.PORT"
+    --> We can not hardcode mongo url as it can be on same machine or different. We use "process.env.MONGO_URL" --> it is custom variable.
+    --> Cloud providers automatically `npm start` run krte hai to it should exist
+    --> We should create .env file parallel to index.js, which will have all env variables. `npm i dotenv` to load and use these
+    --> In AWS, we can rename index.js to app.js if we want.
+
+
+- AWS Deployment: 
+    --> go to "cponsole.aws.com" and create a free account
+    --> Select "mumbai" and search "elastic beanstalk" > "Create a server"
+    --> Fille name and select nodeJs version. 
+        --> delete node_modules
+        --> select remaining files and do compress (zip)
+        --> upload this zip
+    --> Go to configuration > software configuration > edit
+        --> MONGO_URL => URL got from Mongo (you should use password in it) => App name
+- MongoDB: 
+    --> Go to mongoDb and create account
+    --> Ask the ip (ip of machine which will access this DB)
+    --> Clieck on "connect" and copy the Url whioch comes right after it.
   
 Execution Command:
   -- can run this script with CMD (not powershell):=>  `npm run start-dev` for testing in local machine. We need to use `run`.
