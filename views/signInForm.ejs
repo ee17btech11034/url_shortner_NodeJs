@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("./partials/htmlHead") %>
+    <title>Document</title>
+</head>
+<body>
+    <% if (locals.anyAlert) alert("Please create account!") %>
+    <%- include("./partials/navBar") %>
+
+    <%- include("./emailPass") %>
+
+    <%- include("./partials/jsScripts") %>
+</body>
+</html>

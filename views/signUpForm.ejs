@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("./partials/htmlHead") %>
+    <title>Blogify - SignUp</title>
+</head>
+<body>
+    <% if (locals.anyAlert) alert("Please create account!") %>
+    <%- include("./partials/navBar") %>
+
+    <div class="row">
+        <div class="col">
+            <input type="text" class="form-control" placeholder="First name" aria-label="First name">
+        </div>
+        <div class="col">
+            <input type="text" class="form-control" placeholder="Last name" aria-label="Last name">
+        </div>
+    </div>
+
+    <%- include("./emailPass") %>
+
+    <%- include("./partials/jsScripts") %>
+</body>
+</html>
